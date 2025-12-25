@@ -9,6 +9,7 @@ import torch.nn as nn
 from torchvision import models
 import pandas as pd
 
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def init_weights_kaiming(m):
@@ -128,18 +129,28 @@ def get_rgb_visualization(image_data):
     except Exception as e:
         print(f"Visualization Error: {e}")
         return None
+    
+    
 
-st.set_page_config(page_title="Land Type Classifier", layout='wide')
+st.set_page_config(page_title="Land Type Classifier", layout='wide', initial_sidebar_state="expanded")
+
 
 st.title("Sentinel-2 Land Classification")
-st.markdown("### Satellite Imagery Analysis")
+st.markdown("""
+    <div style='text-align: center; background-color:#ECF0F1; padding:20px; border-radius:10px;'>
+        <h1 style='color: #2C3E50;'>Sentinel-2 Land Classification</h1>
+        <p style='color: #7F8C8D;'>Analyze satellite imagery and predict land types</p>
+    </div>
+""", unsafe_allow_html=True)
 st.markdown("---")
 
 
 with st.sidebar:
-    st.header("Upload Image")
-    uploaded_file = st.file_uploader("Select Sentinel-2 Image (.tif)", type=["tif", "tiff"])
-    st.info("Ensure the image contains 13 channel.")
+    st.header("Upload Sentinel-2 Image")
+    uploaded_file = st.file_uploader("Select a multi-spectral .tif file", type=["tif", "tiff"])
+    st.info("Image should contain 13 channels (Sentinel-2).", icon="ℹ️")
+    st.markdown("---")
+    st.markdown("<p style='color:#34495E;'>Developed by Hend Ramadan | Professional ML Tool</p>", unsafe_allow_html=True)
 
 
 if uploaded_file is not None:
@@ -217,3 +228,4 @@ if uploaded_file is not None:
 
 else:
     st.warning("#### Uploading the Image")
+    
